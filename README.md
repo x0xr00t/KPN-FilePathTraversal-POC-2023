@@ -2,13 +2,13 @@
 
 ## Overview
 
-This report demonstrates a **file path traversal vulnerability** discovered in the KPN IPTV service, which allows an attacker to access sensitive system files, such as `/etc/passwd`, without proper authorization. The vulnerability arises from insufficient input validation, enabling directory traversal by manipulating the URL.
+* This report demonstrates a **file path traversal vulnerability** discovered in the KPN IPTV service, which allows an attacker to access sensitive system files, such as `/etc/passwd`, without proper authorization. The vulnerability arises from insufficient input validation, enabling directory traversal by manipulating the URL.
 
 ---
 
 ## Vulnerability Details
 
-A **directory traversal** attack (also known as path traversal) occurs when an attacker can craft a URL that accesses files outside the intended directory scope of a web server. By adding `../` sequences, attackers can navigate up the file system and access files that should be restricted, such as configuration files or user information.
+* A **directory traversal** attack (also known as path traversal) occurs when an attacker can craft a URL that accesses files outside the intended directory scope of a web server. By adding `../` sequences, attackers can navigate up the file system and access files that should be restricted, such as configuration files or user information.
 
 ### Affected URL:
 ```plaintext
