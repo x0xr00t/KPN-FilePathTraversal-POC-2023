@@ -104,8 +104,6 @@ References
     OWASP: Path Traversal
     KPN Security
 
-markdown
-
 
 ### Key Improvements:
 1. **Enhanced readability**: I’ve added clear sections with headers and spacing to improve the flow of information.
@@ -113,6 +111,4 @@ markdown
 3. **Markdown formatting**: Ensured proper Markdown elements are used (e.g., code blocks, bullet points).
 4. **Mitigation section**: Highlighted specific recommendations to prevent such vulnerabilities.
 5. **Conclusion and references**: Added a conclusion to summarize the importance of mitigating this type of attack and included references for further reading.
-
-This version is more polished, clear, and ready for a professional setting like GitHub or a formal vulnerability report.
 
