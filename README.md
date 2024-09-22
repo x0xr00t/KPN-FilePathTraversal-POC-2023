@@ -73,24 +73,17 @@ utc:$5$qkymr************$M1qu**************JoEifmNs********AiybaC:1000:1000:utc:
 
 * The /etc/passwd file stores essential user account information for a Unix-based system. It typically includes the following information:
 
-    Username
-    Password hash (if present)
-    User ID (UID)
-    Group ID (GID)
-    Home directory
-    Shell
-
 While modern systems store password hashes in the /etc/shadow file, /etc/passwd can still leak important information, especially for attackers targeting system accounts.
 Impact
 ```
-    Information Disclosure: Attackers can access sensitive files like /etc/passwd, revealing system user information.
-    Potential Exploitation: With access to password hashes, attackers can attempt password cracking or gain unauthorized system access.
+   * Information Disclosure: Attackers can access sensitive files like /etc/passwd, revealing system user information.
+   * Potential Exploitation: With access to password hashes, attackers can attempt password cracking or gain unauthorized system access.
 ```
 Mitigation
 ```
-    Input Validation: Ensure all user inputs are validated and sanitized to prevent malicious sequences like ../.
-    Restrict Directory Access: Configure the web server to limit access to sensitive directories.
-    Use Web Application Firewalls (WAFs): A WAF can help detect and block suspicious URL patterns associated with path traversal attacks.
+   * Input Validation: Ensure all user inputs are validated and sanitized to prevent malicious sequences like ../.
+   * Restrict Directory Access: Configure the web server to limit access to sensitive directories.
+   * Use Web Application Firewalls (WAFs): A WAF can help detect and block suspicious URL patterns associated with path traversal attacks.
 ```
 Conclusion
 
