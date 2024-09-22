@@ -1,11 +1,5 @@
 # KPN IPTV File Path Traversal Vulnerability - PoC (2023)
 
-# affected device 
-* Tested on the older IPTV device, (no bluethooth), likely worked on newer typpes to.
-
-# This been patched !!
-* 3 day's after report the bug in november 2023, it was fixed with a critial urgent patch, rolled out in 3 day's
-
 ## Overview
 
 This report demonstrates a **file path traversal vulnerability** discovered in the KPN IPTV service, which allows an attacker to access sensitive system files, such as `/etc/passwd`, without proper authorization. The vulnerability arises from insufficient input validation, enabling directory traversal by manipulating the URL.
@@ -108,5 +102,11 @@ Impact
 References
 
     OWASP: Path Traversal
-5. **Conclusion and references**: Added a conclusion to summarize the importance of mitigating this type of attack and included references for further reading.
+
+# affected device 
+* Tested on the older IPTV device, (no bluethooth), likely worked on newer types to.
+
+# This been patched !!
+* 3 day's after report the bug in november 2023, it was fixed with a critial urgent patch, rolled out in 3 day's
+
 
