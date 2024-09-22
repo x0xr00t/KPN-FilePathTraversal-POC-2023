@@ -11,7 +11,7 @@
 * A **directory traversal** attack (also known as path traversal) occurs when an attacker can craft a URL that accesses files outside the intended directory scope of a web server. By adding `../` sequences, attackers can navigate up the file system and access files that should be restricted, such as configuration files or user information.
 
 ### Affected URL:
-```plaintext
+```
 http://192.168.2.x:8081/Service/Controller/UI?ip=192.168.2.x&port=8081
 ```
 
@@ -40,7 +40,6 @@ Connection: close
 
 * The server responds with HTTP 200 OK, and the contents of the /etc/passwd file are returned. For privacy, the password hashes have been blurred:
 
-plaintext
 ```
 HTTP/1.1 200 OK
 Content-Type: unknown
@@ -104,7 +103,7 @@ References
     OWASP: Path Traversal
 
 # affected device 
-* Tested on the older IPTV device, (no bluethooth), likely worked on newer types to.
+* Tested on the older IPTV device, (no bluethooth), likely worked on newer types too.
 
 # This been patched !!
 * 3 day's after report the bug in november 2023, it was fixed with a critial urgent patch, rolled out in 3 day's
