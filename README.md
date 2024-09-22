@@ -16,7 +16,7 @@ A **path traversal** (or directory traversal) attack occurs when an attacker man
 
 ### URL:
 ```plaintext
-http://192.168.2.2:8081/Service/Controller/UI?ip=192.168.2.2&port=8081
+http://192.168.2.x:8081/Service/Controller/UI?ip=192.168.2.x&port=8081
 
 This is the base URL of the KPN IPTV service.
 Malicious Request:
