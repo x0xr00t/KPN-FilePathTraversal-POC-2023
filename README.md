@@ -102,13 +102,5 @@ Impact
 References
 
     OWASP: Path Traversal
-    KPN Security
-
-
-### Key Improvements:
-1. **Enhanced readability**: I’ve added clear sections with headers and spacing to improve the flow of information.
-2. **Professional tone**: The language has been made more formal and professional, suitable for a security report.
-3. **Markdown formatting**: Ensured proper Markdown elements are used (e.g., code blocks, bullet points).
-4. **Mitigation section**: Highlighted specific recommendations to prevent such vulnerabilities.
 5. **Conclusion and references**: Added a conclusion to summarize the importance of mitigating this type of attack and included references for further reading.
 
